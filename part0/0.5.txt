@@ -1,0 +1,19 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server->>browser: the css file
+    deactivate server
+
+    browser->>server: GET https://students.cs.helsinki.fi/exmapleapp/main.js
+    activate server
+    server->>browser: the JavScript file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exmapleapp/data.json
+    activate server
+    server->>browser: [{"content": "some content", "date": 2025-1-10}, ...]
+    deactivate server
+single-page-app
