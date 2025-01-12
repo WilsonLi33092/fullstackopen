@@ -1,7 +1,7 @@
 const Feedback = (props) => {
     return(
         <>
-            <p>{props.text} {props.count}</p>
+            {props.text} {props.count}
         </>
     )
 }
