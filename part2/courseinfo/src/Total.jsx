@@ -1,7 +1,6 @@
 const Total = (props) => {
     let sum =0;
     let total = props.parts.reduce(function (acc,obj) {return acc + obj.exercises;},0);
-    console.log(total)
     return (
         <>
         {props.parts.map(part => {
