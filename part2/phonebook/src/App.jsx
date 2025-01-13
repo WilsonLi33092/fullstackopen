@@ -1,13 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Name from './Name'
 import Filter from './Filter'
 import PersonForm from './PersonForm'
+import axios from 'axios'
+import personService from './services/persons'
 
 function App() {
-  const[persons, setPersons] = useState([{name: 'Arto Hellas', number: 647}])
+  const[persons, setPersons] = useState([])
   const[newName , setNewName] = useState('')
   const[newNumber, setNewNumber] = useState('')
   const[newSearch, setNewSearch] = useState('')
+  useEffect(() => {
+      personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
+      })
+    }, [])
 
   const handleInputChange = (event) => {
     setNewName(event.target.value)
@@ -32,15 +41,29 @@ function App() {
       name: newName,
       number: newNumber
     }
-    
     if(JSON.stringify(check).includes(JSON.stringify(newName))) {
       alert(`${newName}` + ' is already added to the phonebook.')
     } else {
-      setPersons(persons.concat(newPerson))
+      personService
+          .create(newPerson)
+          .then(returnedPerson => {
+            setPersons(persons.concat(returnedPerson))
+          })
     }
     setNewName('')
     setNewNumber('')
-
+  }
+  const deletePerson = (id) => {
+    const person = persons.find(p => p.id === id)
+        personService
+        .update(id, changedNote)
+        .then(returnedNote => {
+          setNotes(notes.map(note => note.id === id ? returnedNote : note))
+        })
+        .catch(error => {
+          alert(`the note '${note.content} was already deleted from the server` )
+          setNotes(notes.filter(n => n.id !== id))
+        })
   }
   return (
     <div>
